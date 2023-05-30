@@ -16,7 +16,7 @@ export class UserRepository {
     return newUser.save();
   }
 
-  async updateUser(userId: string, updates: Partial<User>): Promise<User> {
+  async update(userId: string, updates: Partial<User>): Promise<User> {
     const allowedUpdates = { name: updates.name, age: updates.age };
     return this.userModel
       .findByIdAndUpdate(userId, allowedUpdates, { new: true })

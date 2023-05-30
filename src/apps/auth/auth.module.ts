@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { UsersRepository } from '../libs/repositories/users.repository';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './constants';
-import { JwtStrategy } from './jwt.strategy';
 import { EncryptionService } from 'src/libs/encryption/encryption.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/libs/schemas/user.schema';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthController } from './controllers/auth.controller';
+import { AuthService } from './services/auth.service';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { UserRepository } from 'src/libs/repositories/user.repository';
+import { JwtAuthGuard } from './gaurds/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -24,8 +24,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
     }),
   ],
-  providers: [AuthService, UsersRepository, JwtStrategy, EncryptionService],
+  providers: [
+    AuthService,
+    UserRepository,
+    JwtStrategy,
+    EncryptionService,
+    JwtAuthGuard,
+  ],
   controllers: [AuthController],
-  exports: [JwtStrategy],
 })
 export class AuthModule {}
