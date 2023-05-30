@@ -19,7 +19,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-
+  app.setGlobalPrefix('api');
   const configService = app.get(ConfigService);
   const port = configService.get('CONFIGS.PORT') || 3000;
 

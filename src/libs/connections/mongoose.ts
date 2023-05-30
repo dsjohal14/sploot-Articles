@@ -1,11 +1,11 @@
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import {
   MongooseModuleOptions,
   MongooseModuleAsyncOptions,
 } from '@nestjs/mongoose';
 
 export const mongooseConnectionConfig: MongooseModuleAsyncOptions = {
-  imports: [ConfigService],
+  imports: [ConfigModule],
   useFactory: async (
     configService: ConfigService,
   ): Promise<MongooseModuleOptions> => ({
