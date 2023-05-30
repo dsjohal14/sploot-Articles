@@ -1,0 +1,15 @@
+service: sploot-backend
+plugin: serverless-offline
+provider:
+  name: aws-server
+  runtime: nodejs12.x
+function:
+  main:
+   handler: dist/serverless.handler
+   events:
+   -http:
+      method:ANY
+      path: /
+    -http:
+      method:ANY
+      path: '{proxy+}'
