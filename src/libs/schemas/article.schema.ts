@@ -8,7 +8,7 @@ export type ArticleDocument = Article & Document;
 @Schema()
 export class Article {
   @Prop({ type: mongoose.Schema.Types.ObjectId, auto: true })
-  articleId: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
 
   @Prop({ required: true })
   title: string;

@@ -8,7 +8,8 @@ export class ArticleController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  getAllArticles() {
-    return this.articleService.getArticles();
+  async getAllArticles() {
+    const articles = await this.articleService.getArticles();
+    return { message: 'Fetched Successfully', data: articles };
   }
 }

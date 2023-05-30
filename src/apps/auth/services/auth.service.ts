@@ -23,7 +23,7 @@ export class AuthService {
     const user = await this.usersRepository.findByEmail(email);
     if (
       user &&
-      this.encryptionService.comparePasswords(password, user.password)
+      (await this.encryptionService.comparePasswords(password, user.password))
     ) {
       return user;
     }
@@ -33,12 +33,13 @@ export class AuthService {
   async login(
     email: string,
     password: string,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ userId: string; accessToken: string }> {
     const user = await this.validateUser(email, password);
     if (user) {
       const payload: JwtPayload = { email };
       const accessToken = this.jwtService.sign(payload);
       return {
+        userId: user._id.toString(),
         accessToken,
       };
     } else {

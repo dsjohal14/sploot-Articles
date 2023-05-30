@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from '../schemas/user.schema';
+import { UpdateUserDto } from 'src/apps/content/dtos/update-user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -16,8 +17,11 @@ export class UserRepository {
     return newUser.save();
   }
 
-  async update(userId: string, updates: Partial<User>): Promise<User> {
-    const allowedUpdates = { name: updates.name, age: updates.age };
+  async update(userId: string, updates: UpdateUserDto): Promise<User> {
+    const allowedUpdates: Partial<User> = {
+      name: updates.name,
+      age: updates.age,
+    };
     return this.userModel
       .findByIdAndUpdate(userId, allowedUpdates, { new: true })
       .exec();
