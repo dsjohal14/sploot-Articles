@@ -46,7 +46,7 @@ export class AuthService {
     }
   }
 
-  async signUp(userDto: AuthSignupDto): Promise<void> {
+  async signUp(userDto: AuthSignupDto): Promise<User> {
     const { email, password } = userDto;
 
     const userExists = await this.usersRepository.findByEmail(email);
@@ -55,10 +55,13 @@ export class AuthService {
     }
 
     const hashedPassword = await this.encryptionService.hashPassword(password);
-    const userToCreate: User = { ...userDto, password: hashedPassword };
+    const userToCreate: Partial<User> = {
+      ...userDto,
+      password: hashedPassword,
+    };
 
     try {
-      await this.usersRepository.create(userToCreate);
+      return this.usersRepository.create(userToCreate);
     } catch (err) {
       throw new InternalServerErrorException(err);
     }
